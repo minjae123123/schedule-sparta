@@ -1,8 +1,6 @@
 package com.schedule.service;
 
-import com.schedule.dtos.CreateScheduleRequest;
-import com.schedule.dtos.CreateScheduleResponse;
-import com.schedule.dtos.GetScheduleResponse;
+import com.schedule.dtos.*;
 import com.schedule.entity.Schedule;
 import com.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
@@ -66,6 +64,27 @@ public class ScheduleService {
             );
         }
         return dtos;
+    }
+
+    @Transactional(readOnly = true)
+    public UpdateScheduleResponse updateSchedule(Long id, UpdateScheduleRequest request) {
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
+                () ->new IllegalStateException("없는 일정입니다.")
+        );
+
+        schedule.updateSchedule(
+                request.getTitle(),
+                request.getDetail(),
+                request.getName(),
+                request.getPassword()
+        );
+
+        return new UpdateScheduleResponse(
+                schedule.getId(),
+                schedule.getTitle(),
+                schedule.getDetail(),
+                schedule.getName()
+        );
     }
 
 }

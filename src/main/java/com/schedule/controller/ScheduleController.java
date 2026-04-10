@@ -1,8 +1,6 @@
 package com.schedule.controller;
 
-import com.schedule.dtos.CreateScheduleRequest;
-import com.schedule.dtos.CreateScheduleResponse;
-import com.schedule.dtos.GetScheduleResponse;
+import com.schedule.dtos.*;
 import com.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,18 +15,23 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    @PostMapping("/schedule")
+    @PostMapping("/schedules")
     public ResponseEntity<CreateScheduleResponse> createSchedule(@RequestBody CreateScheduleRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.createSchedule(request));
     }
 
-    @GetMapping("/schedule/{schedule_id}")
+    @GetMapping("/schedules/{schedule_id}")
     public ResponseEntity<GetScheduleResponse> getOneSchedule(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.findOne(id));
     }
 
-    @GetMapping("/schedule")
+    @GetMapping("/schedules")
     public ResponseEntity<List<GetScheduleResponse>> getAllSchedule() {
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.findAll());
+    }
+
+    @PutMapping("/schedules/{id}")
+    public ResponseEntity<UpdateScheduleResponse> updateSchedule(@PathVariable Long id, @RequestBody UpdateScheduleRequest request) {
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.updateSchedule(id, request));
     }
 }
