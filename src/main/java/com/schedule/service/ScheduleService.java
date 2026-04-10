@@ -17,7 +17,7 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
     @Transactional
-    public CreateScheduleResponse createSchedule(CreateScheduleRequest request) {
+    public CreateScheduleResponse create(CreateScheduleRequest request) {
         Schedule schedule = new Schedule(
                 request.getTitle(),
                 request.getDetail(),
@@ -67,7 +67,7 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public UpdateScheduleResponse updateSchedule(Long id, UpdateScheduleRequest request) {
+    public UpdateScheduleResponse update(Long id, UpdateScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(
                 () ->new IllegalStateException("없는 일정입니다.")
         );
@@ -85,6 +85,17 @@ public class ScheduleService {
                 schedule.getDetail(),
                 schedule.getName()
         );
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        boolean existence = scheduleRepository.existsById(id);
+
+        if (!existence) {
+            throw new IllegalStateException("없는 멤버입니다.");
+        }
+
+        scheduleRepository.deleteById(id);
     }
 
 }

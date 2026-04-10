@@ -17,7 +17,7 @@ public class ScheduleController {
 
     @PostMapping("/schedules")
     public ResponseEntity<CreateScheduleResponse> createSchedule(@RequestBody CreateScheduleRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.createSchedule(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.create(request));
     }
 
     @GetMapping("/schedules/{schedule_id}")
@@ -32,6 +32,12 @@ public class ScheduleController {
 
     @PutMapping("/schedules/{id}")
     public ResponseEntity<UpdateScheduleResponse> updateSchedule(@PathVariable Long id, @RequestBody UpdateScheduleRequest request) {
-        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.updateSchedule(id, request));
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.update(id, request));
+        }
+
+    @DeleteMapping("/schedules/{id}")
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
+        scheduleService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
