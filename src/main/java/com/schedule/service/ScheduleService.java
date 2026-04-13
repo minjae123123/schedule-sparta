@@ -4,6 +4,7 @@ import com.schedule.dtos.*;
 import com.schedule.entity.Schedule;
 import com.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,26 +32,32 @@ public class ScheduleService {
                 savedSchedule.getId(),
                 savedSchedule.getTitle(),
                 savedSchedule.getDetail(),
-                savedSchedule.getName()
+                savedSchedule.getName(),
+                savedSchedule.getCreatedAt(),
+                savedSchedule.getModifiedAt()
         );
     }
 
     @Transactional(readOnly = true)
     public GetScheduleResponse findOne(Long id) {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(
-                () ->new IllegalStateException("없는 일정입니다.")
+                () ->new IllegalAccessError("없는 일정입니다.")
         );
         return new GetScheduleResponse(
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getDetail(),
-                schedule.getName()
+                schedule.getName(),
+                schedule.getCreatedAt(),
+                schedule.getModifiedAt()
         );
     }
 
     @Transactional(readOnly = true)
     public List<GetScheduleResponse> findAll() {
-        List<Schedule> schedules = scheduleRepository.findAll();
+        List<Schedule> schedules = scheduleRepository.findAll(
+                Sort.by(Sort.Direction.DESC, "modifiedAt")  //수정일 기준 내림차순 정렬
+        );
 
         List<GetScheduleResponse> dtos = new ArrayList<>();
 
@@ -59,31 +66,33 @@ public class ScheduleService {
                     schedule.getId(),
                     schedule.getTitle(),
                     schedule.getDetail(),
-                    schedule.getName()
+                    schedule.getName(),
+                    schedule.getCreatedAt(),
+                    schedule.getModifiedAt()
                     )
             );
         }
         return dtos;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public UpdateScheduleResponse update(Long id, UpdateScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(
-                () ->new IllegalStateException("없는 일정입니다.")
+                () ->new IllegalAccessError("없는 일정입니다.")
         );
 
         schedule.updateSchedule(
                 request.getTitle(),
-                request.getDetail(),
-                request.getName(),
-                request.getPassword()
+                request.getName()
         );
 
         return new UpdateScheduleResponse(
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getDetail(),
-                schedule.getName()
+                schedule.getName(),
+                schedule.getCreatedAt(),
+                schedule.getModifiedAt()
         );
     }
 
