@@ -2,7 +2,6 @@ package com.schedule.service;
 
 import com.schedule.dtos.CreateCommentRequest;
 import com.schedule.dtos.CreateCommentResponse;
-import com.schedule.dtos.CreateScheduleResponse;
 import com.schedule.entity.Comment;
 import com.schedule.entity.Schedule;
 import com.schedule.repository.CommentRepository;
@@ -10,7 +9,7 @@ import com.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Service
 @RequiredArgsConstructor

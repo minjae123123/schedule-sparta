@@ -43,13 +43,25 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(
                 () ->new IllegalAccessError("없는 일정입니다.")
         );
+
+        List<GetCommentResponse> commentDtos = schedule.getComments().stream()
+                .map(comment -> new GetCommentResponse(
+                        comment.getId(),
+                        comment.getContent(),
+                        comment.getName(),
+                        comment.getCreatedAt(),
+                        comment.getModifiedAt()
+                )).toList();
+
+
         return new GetScheduleResponse(
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getDetail(),
                 schedule.getName(),
                 schedule.getCreatedAt(),
-                schedule.getModifiedAt()
+                schedule.getModifiedAt(),
+                commentDtos
         );
     }
 
