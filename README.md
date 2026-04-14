@@ -38,18 +38,21 @@ https://www.notion.so/API-341cd1f1b02f80058ddbff44dba06ba4?showMoveTo=true&saveP
 ② @RequestParam, @PathVariable, @RequestBody 어노테이션과 특징
 
 @RequestParam : URL의 쿼리 파라미터의 값을 받아올 때 쓰는 어노테이션
+
 특징 
 - URL 뒤에 ?key=value 형식의 데이터를 받는다.
 - 주로 조회 조건, 검색 조건에 많이 사용된다.
 - 필수 여부를 설정할 수 있다.
 
 @PathVariable : URL 경로에 포함된 값을 받아올 때 쓰는 어노테이션
+
 특징
 - URL 경로 자체의 일부를 변수처럼 사용한다.
 - 주로 특정 자원을 식별할 때 사용한다.
 - REST API에서 가장 많이 사용하는 방식 중 하나이다.
 
 @RequestBody : 클라이언트가 요청 본문(body)에 담아서 보낸 JSON 데이터를 객체로 변환할 때 사용하는 어노테이션
+
 특징
 - HTTP Body의 JSON 데이터를 Java 객체로 변환한다.
 - 주로 생성, 수정 요청에서 많이 사용된다.
